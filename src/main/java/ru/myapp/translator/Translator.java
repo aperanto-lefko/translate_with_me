@@ -1,4 +1,4 @@
-package ru.myapp.Translator;
+package ru.myapp.translator;
 
 import space.dynomake.libretranslate.Language;
 
