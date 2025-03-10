@@ -4,37 +4,48 @@ import ru.myapp.exception.TranslationException;
 import ru.myapp.exception.ValidationException;
 import ru.myapp.service.TranslatorService;
 import space.dynomake.libretranslate.Language;
-import space.dynomake.libretranslate.Translator;
 
 import java.util.Scanner;
 
 public class ConsoleApp {
 
     public static void start() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Выберите язык для исходного текста:" +
-                    "\n 1. Русский" +
-                    "\n 2. Английский" +
-                    "\n 3. Испанский");
-            Language sourceLanguage = chooseLanguage(scanner.nextLine());
-            System.out.println("Выберите целевой язык:" +
-                    "\n 1. Русский" +
-                    "\n 2. Английский" +
-                    "\n 3. Испанский");
-            Language targetLanguage = chooseLanguage(scanner.nextLine());
-            System.out.println("Введите текст для перевода");
-            String text = scanner.nextLine();
-            TranslatorService service = new TranslatorService();
-            System.out.println(service.translateText(text, sourceLanguage, targetLanguage));
-        } catch (ValidationException ex) {
-            System.out.println(ex.getMessage());
-        } catch (TranslationException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                Language sourceLanguage = chooseLanguage(scanner, "исходного");
+                Language targetLanguage = chooseLanguage(scanner, "целевого");
+                while (true) {
+                    System.out.println("Введите текст для перевода или нажмите 0, чтобы выйти");
+                    String text = scanner.nextLine();
+                    if (text.equals("0")) {
+                        return;
+                    }
+                    try {
+                        TranslatorService service = new TranslatorService();
+                        System.out.println(service.translateText(text, sourceLanguage, targetLanguage));
 
-    private static Language chooseLanguage(String text) {
-        return switch (text) {
+                    } catch (ValidationException | TranslationException ex) {
+                        System.out.println(ex.getMessage());
+                        break;
+                    }
+                }
+            }
+                catch(Exception ex){
+                    System.out.println("Непредвиденная ошибка: " + ex.getMessage());
+                }
+            }
+        }
+
+
+
+
+    private static Language chooseLanguage(Scanner scanner, String type) {
+        System.out.println("Выберите язык для " + type + " текста " +
+                "\n 1. Русский" +
+                "\n 2. Английский" +
+                "\n 3. Испанский");
+        return switch (scanner.nextLine()) {
             case "1" -> Language.RUSSIAN;
             case "2" -> Language.ENGLISH;
             case "3" -> Language.SPANISH;

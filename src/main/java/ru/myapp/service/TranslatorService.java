@@ -8,15 +8,15 @@ import space.dynomake.libretranslate.Translator;
 
 public class TranslatorService {
     public String translateText(String text, Language source, Language target) throws ValidationException, TranslationException {
-       if(Validator.isNullOrEmpty(text)) {
-           throw new TranslationException("Текстовое поле не может быть пустым");
-       }
-        if(source == Language.RUSSIAN) {
-            if(Validator.containsLatinAndSpecialChar(text)) {
+        if (Validator.isNullOrEmpty(text)) {
+            throw new TranslationException("Текстовое поле не может быть пустым");
+        }
+        if (source == Language.RUSSIAN) {
+            if (Validator.containsLatinAndSpecialChar(text)) {
                 throw new ValidationException("Текст должен содержать только буквы русского алфавита и допустимые знаки ,.!?");
             }
         } else {
-            if(Validator.containsCyrillicAndSpecialChar(text)){
+            if (Validator.containsCyrillicAndSpecialChar(text)) {
                 throw new ValidationException("Текст должен содержать только буквы латинского алфавита и допустимые знаки ,.!?");
             }
         }
