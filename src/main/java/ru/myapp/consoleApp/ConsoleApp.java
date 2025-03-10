@@ -30,14 +30,14 @@ public class ConsoleApp {
                         System.out.println(service.translateText(text, sourceLanguage, targetLanguage));
 
                     } catch (ValidationException | TranslationException ex) {
-                        log.error("Ошибка валидации: {}", ex.getMessage());
+                        log.error("Ошибка валидации: {}: {}", ex.getClass(), ex.getMessage());
                         System.out.println(ex.getMessage());
                         break;
                     }
                 }
             } catch (Exception ex) {
                 System.out.println("Непредвиденная ошибка: " + ex.getMessage());
-                log.error("Непредвиденная ошибка: {}", ex.getMessage());
+                log.error("Непредвиденная ошибка: {}: {}", ex.getClass(), ex.getMessage());
             }
         }
     }
