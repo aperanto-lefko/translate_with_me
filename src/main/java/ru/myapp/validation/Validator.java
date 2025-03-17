@@ -1,5 +1,7 @@
 package ru.myapp.validation;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class Validator {
     public static boolean containsCyrillicAndSpecialChar(String text) {
 
@@ -12,6 +14,6 @@ public class Validator {
     }
 
     public static boolean isNullOrEmpty(String text) {
-        return (text == null || text.isEmpty());
+        return StringUtils.isBlank(text);
     }
 }

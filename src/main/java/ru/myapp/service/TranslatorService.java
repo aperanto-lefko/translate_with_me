@@ -11,14 +11,10 @@ public class TranslatorService {
         if (Validator.isNullOrEmpty(text)) {
             throw new TranslationException("Текстовое поле не может быть пустым");
         }
-        if (source == Language.RUSSIAN) {
-            if (Validator.containsLatinAndSpecialChar(text)) {
-                throw new ValidationException("Текст должен содержать только буквы русского алфавита и допустимые знаки ,.!?");
-            }
-        } else {
-            if (Validator.containsCyrillicAndSpecialChar(text)) {
-                throw new ValidationException("Текст должен содержать только буквы латинского алфавита и допустимые знаки ,.!?");
-            }
+        if (source == Language.RUSSIAN && Validator.containsLatinAndSpecialChar(text)) {
+            throw new ValidationException("Текст должен содержать только буквы русского алфавита и допустимые знаки ,.!?");
+        } else if (Validator.containsCyrillicAndSpecialChar(text)) {
+            throw new ValidationException("Текст должен содержать только буквы латинского алфавита и допустимые знаки ,.!?");
         }
         return Translator.translate(source, target, text);
     }
