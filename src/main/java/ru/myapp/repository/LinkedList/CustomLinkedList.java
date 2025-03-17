@@ -1,5 +1,7 @@
 package ru.myapp.repository.LinkedList;
 
+import java.util.Comparator;
+
 public class CustomLinkedList<T> {
     // Голова списка (первый элемент)
     private Node<T> head;
@@ -56,31 +58,26 @@ public class CustomLinkedList<T> {
         return size;
     }
 
-    public void quickSort() {
-        // Вызываем вспомогательный метод для сортировки
-        head = quickSorting(head);
+    public void quickSort(Comparator<T> comparator) {
+        head = quickSorting(head, comparator);
     }
 
     // метод для быстрой сортировки
-    private Node<T> quickSorting(Node<T> node) {
-        //если список пуст или содержит один элемент
+    private Node<T> quickSorting(Node<T> node, Comparator<T> comparator) {
         if (node == null || node.next == null) {
             return node;
         }
 
-        // Опорный элемент (pivot) — первый узел
-        Node<T> pivot = node;
-        // Узлы, меньшие или равные pivot
-        Node<T> lessHead = new Node<>(null);
-        // Узлы, большие pivot
-        Node<T> greaterHead = new Node<>(null);
+        Node<T> pivot = node; // Опорный элемент
+        Node<T> lessHead = new Node<>(null); // Узлы, меньшие pivot
+        Node<T> greaterHead = new Node<>(null); // Узлы, большие pivot
         Node<T> less = lessHead;
         Node<T> greater = greaterHead;
         Node<T> current = node.next;
 
-        // Разделение списка на две части: меньше pivot и больше pivot
+        // Разделение списка на две части
         while (current != null) {
-            if (((Comparable<T>) current.data).compareTo(pivot.data) <= 0) {
+            if (comparator.compare(current.data, pivot.data) <= 0) {
                 less.next = current;
                 less = less.next;
             } else {
@@ -95,8 +92,8 @@ public class CustomLinkedList<T> {
         greater.next = null;
 
         // Рекурсивно сортируем обе части
-        Node<T> sortedLess = quickSorting(lessHead.next);
-        Node<T> sortedGreater = quickSorting(greaterHead.next);
+        Node<T> sortedLess = quickSorting(lessHead.next, comparator);
+        Node<T> sortedGreater = quickSorting(greaterHead.next, comparator);
 
         // Если левая часть пуста, pivot становится началом списка
         if (sortedLess == null) {
@@ -115,5 +112,6 @@ public class CustomLinkedList<T> {
         // Возвращаем начало отсортированного списка
         return sortedLess;
     }
+
 }
 

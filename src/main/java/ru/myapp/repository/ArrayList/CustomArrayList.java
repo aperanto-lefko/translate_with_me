@@ -1,6 +1,12 @@
 package ru.myapp.repository.ArrayList;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public class CustomArrayList<T> {
     private Object[] elements; //внутренний массив для хранения элементов
@@ -26,6 +32,7 @@ public class CustomArrayList<T> {
     }
 
     // получение элемента
+    @SuppressWarnings("unchecked")
     public T get(int index) {
         // Проверка на выход за границы списка
         if (index < 0 || index >= size) {
@@ -34,9 +41,11 @@ public class CustomArrayList<T> {
         return (T) elements[index];
     }
 
-    public void mergeSort() {
-        // Вызываем вспомогательный метод для сортировки
-        elements = mergeSorting(elements, 0, size - 1);
+    public void mergeSort(Comparator<T> comparator) {
+        if (size > 1) {
+            Object[] temp = new Object[size];
+            mergeSorting(0, size - 1, temp, comparator);
+        }
     }
 
     //увеличения размера массива
@@ -45,47 +54,43 @@ public class CustomArrayList<T> {
         elements = Arrays.copyOf(elements, elements.length * 2);
     }
 
-    private Object[] mergeSorting(Object[] arr, int left, int right) {
-        // Если есть более одного элемента, продолжаем сортировку
+    private void mergeSorting(int left, int right, Object[] temp, Comparator<T> comparator) {
         if (left < right) {
-            int mid = (left + right) / 2; // Находим середину массива
-            // Рекурсивно сортируем левую и правую части
-            mergeSorting(arr, left, mid);
-            mergeSorting(arr, mid + 1, right);
-            // Объединяем отсортированные части
-            merge(arr, left, mid, right);
+            int mid = (left + right) / 2;
+            mergeSorting(left, mid, temp, comparator); // Сортировка левой части
+            mergeSorting(mid + 1, right, temp, comparator); // Сортировка правой части
+            merge(left, mid, right, temp, comparator); // Слияние двух частей
         }
-        return arr;
     }
 
-    private void merge(Object[] arr, int left, int mid, int right) {
-        // Временный массив для хранения результата слияния
-        Object[] temp = new Object[right - left + 1];
+
+    @SuppressWarnings("unchecked")
+    private void merge(int left, int mid, int right, Object[] temp, Comparator<T> comparator) {
         int i = left; // Индекс для левой части
         int j = mid + 1; // Индекс для правой части
         int k = 0; // Индекс для временного массива
 
         // Слияние двух частей
         while (i <= mid && j <= right) {
-            if (((Comparable<T>) arr[i]).compareTo((T) arr[j]) <= 0) {
-                temp[k++] = arr[i++]; // Элемент из левой части меньше
+            if (comparator.compare((T) elements[i], (T) elements[j]) <= 0) {
+                temp[k++] = elements[i++];
             } else {
-                temp[k++] = arr[j++]; // Элемент из правой части меньше
+                temp[k++] = elements[j++];
             }
         }
 
         // Добавляем оставшиеся элементы из левой части
         while (i <= mid) {
-            temp[k++] = arr[i++];
+            temp[k++] = elements[i++];
         }
 
         // Добавляем оставшиеся элементы из правой части
         while (j <= right) {
-            temp[k++] = arr[j++];
+            temp[k++] = elements[j++];
         }
 
         // Копируем отсортированные элементы обратно в исходный массив
-        System.arraycopy(temp, 0, arr, left, temp.length);
+        System.arraycopy(temp, 0, elements, left, k);
     }
 }
 

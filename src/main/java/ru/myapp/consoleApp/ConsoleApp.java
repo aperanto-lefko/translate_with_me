@@ -19,17 +19,31 @@ public class ConsoleApp {
                 log.info("Выбран язык для перевода: {}", sourceLanguage);
                 Language targetLanguage = chooseLanguage(scanner, "целевого");
                 log.info("Выбран язык для перевода: {}", targetLanguage);
+                TranslatorService service = new TranslatorService();
                 while (true) {
                     System.out.println("Введите текст для перевода или нажмите 0, чтобы выйти");
-                    String text = scanner.nextLine();
-                    if (text.equals("0")) {
+                    String source = scanner.nextLine();
+                    if (source.equals("0")) {
                         return;
                     }
                     try {
-                        TranslatorService service = new TranslatorService();
-                        System.out.println(service.translateText(text, sourceLanguage, targetLanguage));
-
-                    } catch (ValidationException | TranslationException ex) {
+                        String translate = service.translateText(source, sourceLanguage, targetLanguage);
+                        System.out.println(translate);
+                        System.out.println("1.Занести пару в словарь" +
+                                "\n 2. Показать все слова в словаре" +
+                                "\n 3. Найти слово в словаре");
+                        String result = scanner.nextLine();
+                        switch (result) {
+                            case "1" -> service.addTranslation(source, translate);
+                            case "2" -> service.getAllTranslateSortedBySource()
+                                        .forEach(System.out::println);
+                            case "3" -> {
+                                System.out.println("Введите слово для поиска");
+                                String search = scanner.nextLine();
+                                System.out.println(service.searchTranslate(search));}
+                            default -> System.out.println("Некорректный ввод");
+                            }
+                     } catch (ValidationException | TranslationException ex) {
                         log.error("Ошибка валидации: {}: {}", ex.getClass(), ex.getMessage());
                         System.out.println(ex.getMessage());
                         break;
