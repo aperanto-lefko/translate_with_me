@@ -11,7 +11,5 @@ public interface TranslationRepository {
 
     TranslationPair getTranslation(String original);
 
-    void sortBySource();
-
     List<TranslationPair> getAllSortedBySource();
 }

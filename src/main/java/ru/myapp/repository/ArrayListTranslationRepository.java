@@ -41,8 +41,7 @@ public class ArrayListTranslationRepository implements TranslationRepository {
         return list;
     }
 
-    @Override
-    public void sortBySource() {
+    private void sortBySource() {
         storage.mergeSort(Comparator.comparing(TranslationPair::getSource));
     }
 

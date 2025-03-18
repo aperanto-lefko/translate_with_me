@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import ru.myapp.exception.TranslationException;
 import ru.myapp.exception.ValidationException;
 import ru.myapp.model.TranslationPair;
+import ru.myapp.repository.ArrayListTranslationRepository;
 import ru.myapp.service.TranslatorService;
 import space.dynomake.libretranslate.Language;
 
@@ -19,9 +20,7 @@ public class ConsoleApp {
                 log.info("Выбран язык для перевода: {}", sourceLanguage);
                 Language targetLanguage = chooseLanguage(scanner, "целевого");
                 log.info("Выбран язык для перевода: {}", targetLanguage);
-
-                TranslatorService service = new TranslatorService();
-
+                TranslatorService service = new TranslatorService(new ArrayListTranslationRepository());
                 while (true) {
                     try {
                         System.out.println("\n 1. Ввести текст для перевода" +

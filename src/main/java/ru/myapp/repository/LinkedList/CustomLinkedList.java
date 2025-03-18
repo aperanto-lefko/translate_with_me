@@ -8,7 +8,7 @@ public class CustomLinkedList<T> {
     // Текущий размер списка
     private int size;
 
-    // Внутренний класс Node для представления узла списка
+    // класс Node для представления узла списка
     private static class Node<T> {
         T data; // Данные узла
         Node<T> next; // Ссылка на следующий узел
@@ -112,6 +112,5 @@ public class CustomLinkedList<T> {
         // Возвращаем начало отсортированного списка
         return sortedLess;
     }
-
 }
 
