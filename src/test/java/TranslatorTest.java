@@ -9,18 +9,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TranslatorTest {
-    private static TranslatorService service;
-    private static Language russian;
-    private static Language english;
+    private static TranslatorService service = new TranslatorService();;
+    private static Language russian = Language.RUSSIAN;;
+    private static Language english = Language.ENGLISH;;
 
-    @BeforeAll
-    static void createService() {
-        service = new TranslatorService();
-        russian = Language.RUSSIAN;
-        english = Language.ENGLISH;
-    }
-
-    @Test
+     @Test
     void testTranslateText_WhenTextIsEmpty() {
         String text = "";
         Exception ex = assertThrows(TranslationException.class, () -> {
