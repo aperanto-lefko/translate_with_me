@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.myapp.exception.TranslationException;
 import ru.myapp.exception.ValidationException;
@@ -9,11 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TranslatorTest {
-    private static TranslatorService service = new TranslatorService();;
-    private static Language russian = Language.RUSSIAN;;
-    private static Language english = Language.ENGLISH;;
+    private static TranslatorService service = new TranslatorService();
+    private static Language russian = Language.RUSSIAN;
+    private static Language english = Language.ENGLISH;
 
-     @Test
+
+    @Test
     void testTranslateText_WhenTextIsEmpty() {
         String text = "";
         Exception ex = assertThrows(TranslationException.class, () -> {

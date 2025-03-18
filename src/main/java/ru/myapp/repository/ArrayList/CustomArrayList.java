@@ -1,12 +1,7 @@
 package ru.myapp.repository.ArrayList;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 
 public class CustomArrayList<T> {
     private Object[] elements; //внутренний массив для хранения элементов
