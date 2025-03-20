@@ -24,12 +24,14 @@ public class TranslatorService {
             log.error("Ошибка валидации.Текстовое поле не может быть пустым");
             throw new TranslationException("Текстовое поле не может быть пустым");
         }
-        if (source == Language.RUSSIAN && Validator.containsLatinAndSpecialChar(text)) {
-            log.error("Ошибка валидации.Текст должен содержать только буквы русского алфавита и допустимые знаки ,.!?");
-            throw new ValidationException("Текст должен содержать только буквы русского алфавита и допустимые знаки ,.!?");
-        } else if (Validator.containsCyrillicAndSpecialChar(text)) {
-            log.error("Ошибка валидации.Текст должен содержать только буквы латинского алфавита и допустимые знаки ,.!?");
-            throw new ValidationException("Текст должен содержать только буквы латинского алфавита и допустимые знаки ,.!?");
+        if (source == Language.RUSSIAN) {
+            if (Validator.containsLatinAndSpecialChar(text)) {
+                throw new ValidationException("Текст должен содержать только буквы русского алфавита и допустимые знаки ,.!?");
+            }
+        } else {
+            if (Validator.containsCyrillicAndSpecialChar(text)) {
+                throw new ValidationException("Текст должен содержать только буквы латинского алфавита и допустимые знаки ,.!?");
+            }
         }
         return Translator.translate(source, target, text);
     }
@@ -49,3 +51,5 @@ public class TranslatorService {
         return repository.getAllSortedBySource();
     }
 }
+
+
