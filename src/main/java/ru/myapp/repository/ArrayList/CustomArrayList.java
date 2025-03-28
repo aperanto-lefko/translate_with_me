@@ -6,9 +6,9 @@ import java.util.Comparator;
 public class CustomArrayList<T> {
     private Object[] elements; //внутренний массив для хранения элементов
     private int size; // кол-во элементов в списке
-
+    private static final int DEFAULT_INT_CAPACITY = 10;
     public CustomArrayList() {
-        elements = new Object[10]; //начальный размер
+        elements = new Object[DEFAULT_INT_CAPACITY]; //начальный размер
         size = 0;
     }
 

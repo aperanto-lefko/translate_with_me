@@ -24,6 +24,7 @@ public class CustomLinkedList<T> {
         size = 0; // Начальный размер — 0
     }
 
+
     public void add(T value) {
         // Если список пуст, создаем новый узел и делаем его головой
         if (head == null) {
